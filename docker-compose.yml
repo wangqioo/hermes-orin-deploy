@@ -1,0 +1,45 @@
+services:
+  hermes-agent:
+    image: hermes-agent:arm64
+    container_name: hermes-agent
+    command: gateway run
+    ports:
+      - "8642:8642"
+    volumes:
+      - ./opt/data/agent:/opt/data/hermes
+    environment:
+      - HERMES_HOME=/opt/data/hermes
+      - HERMES_CONFIG_DIR=/opt/data/hermes/config
+      - HERMES_LOG_DIR=/opt/data/hermes/logs
+    restart: unless-stopped
+    networks:
+      - hermes-net
+    user: root
+
+  hermes-webui:
+    image: ghcr.io/nesquena/hermes-webui:latest
+    container_name: hermes-webui
+    depends_on:
+      - hermes-agent
+    ports:
+      - "8787:8787"
+    volumes:
+      - ./opt/data/webui:/opt/data/webui
+      - ./workspace:/workspace
+      - /home/nvidia/lincaigui/hermes-agent-src:/opt/hermes-agent:ro
+      - ./static/ui.js:/apptoo/static/ui.js
+    environment:
+      - HERMES_WEBUI_STATE_DIR=/opt/data/webui
+      - HERMES_HOME=/opt/data/webui/hermes-home
+      - HERMES_BASE_HOME=/opt/data/webui/hermes-home
+      - WANTED_UID=0
+      - WANTED_GID=0
+      - HERMES_WEBUI_AGENT_DIR=/opt/hermes-agent
+      - CUSTOM_LOCAL_LLM_API_KEY=
+    networks:
+      - hermes-net
+    user: root
+
+networks:
+  hermes-net:
+    driver: bridge

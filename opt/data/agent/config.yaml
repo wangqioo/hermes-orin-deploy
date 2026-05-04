@@ -1,0 +1,15 @@
+model:
+  default: "deepseek-v4-pro"
+  provider: "deepseek"
+  base_url: "https://api.deepseek.com/v1"
+  context_length: 131072
+
+agent:
+  max_turns: 60
+  gateway_timeout: 1800
+  image_input_mode: auto
+  reasoning_effort: medium
+  tool_use_enforcement: auto
+
+toolsets:
+  - hermes-cli

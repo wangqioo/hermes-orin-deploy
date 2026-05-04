@@ -1,0 +1,19 @@
+# 敏感数据 - 绝不提交
+opt/data/agent/.env
+opt/data/webui/
+workspace/
+*.bak
+*.bak.*
+
+# 会话和缓存
+opt/data/agent/sessions/
+opt/data/agent/logs/
+opt/data/agent/cache/
+opt/data/agent/state.db*
+opt/data/agent/memories/
+opt/data/agent/plans/
+
+# 系统文件
+.DS_Store
+__pycache__/
+*.pyc
